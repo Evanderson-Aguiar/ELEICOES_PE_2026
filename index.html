@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mapa Eleitoral PE · 2026</title>
+  <meta name="description" content="Explore os resultados das eleições 2026 em Pernambuco por cargo, candidato, município e seção." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">PE</span><div><strong>Mapa Eleitoral</strong><small>Pernambuco · 2026</small></div></div>
+      <nav class="tabs" aria-label="Navegação principal"><button class="tab active" data-view="mapa">Explorar mapa</button><button class="tab" data-view="analises">Análises estatísticas</button></nav>
+      <div class="top-actions"><span class="live-dot"></span><span>Dados consolidados</span><button class="icon-btn" id="aboutBtn" title="Sobre os dados">i</button></div>
+    </header>
+
+    <main>
+      <section id="mapaView" class="view active-view">
+        <div class="hero-row"><div><p class="eyebrow">PAINEL DE EXPLORAÇÃO</p><h1>O voto, em cada canto<br><em>de Pernambuco.</em></h1></div><div class="hero-note">Resultados oficiais por seção eleitoral<br><span>1º turno · 04 de outubro de 2026</span></div></div>
+        <section class="control-card">
+          <div class="control-group"><label for="cargoSelect">Cargo</label><select id="cargoSelect"></select></div>
+          <div class="control-group candidate-control"><label>Candidatos</label><div class="multi-select" id="candidatePicker"><button type="button" class="multi-select-button" id="candidateButton" aria-expanded="false">Carregando candidatos <span>⌄</span></button><div class="multi-select-menu hidden" id="candidateMenu"></div></div></div>
+          <div class="control-group"><label for="citySelect">Município</label><select id="citySelect"><option value="__all">Todos os municípios</option></select></div>
+          <button class="reset-btn" id="resetBtn">↺ <span>Limpar filtros</span></button>
+        </section>
+
+        <section class="stat-grid" id="statGrid"></section>
+        <div class="workspace-grid">
+          <section class="map-card"><div class="card-head"><div><span class="section-kicker">DISTRIBUIÇÃO GEOGRÁFICA</span><h2 id="mapTitle">Votos por município</h2></div><div id="mapLegend" class="map-legend"></div></div><div id="map"></div><div class="map-footer"><span><b id="coverageText">—</b> seções no recorte</span><span class="mono">Clique em município ou seção para ver os votos por candidato</span></div></section>
+          <aside class="side-stack">
+            <section class="layer-card"><div class="card-head compact"><div><span class="section-kicker">CAMADAS</span><h3>O que aparece no mapa</h3></div></div><label class="toggle-row"><span><i class="layer-dot municipality"></i> Municípios</span><input type="checkbox" id="municipalityToggle" checked><b></b></label><label class="toggle-row"><span><i class="layer-dot sections"></i> Seções eleitorais</span><input type="checkbox" id="sectionsToggle" checked><b></b></label></section>
+            <section class="ranking-card"><div class="card-head compact"><div><span class="section-kicker">RANKING NO RECORTE</span><h3>Municípios líderes</h3></div><span class="rank-icon">↗</span></div><div id="rankingList" class="ranking-list"></div></section>
+          </aside>
+        </div>
+      </section>
+
+      <section id="analisesView" class="view">
+        <div class="hero-row analysis-hero"><div><p class="eyebrow">LEITURA DOS RESULTADOS</p><h1>Perguntas que os<br><em>dados respondem.</em></h1></div><div class="hero-note">Use os rankings para encontrar<br><span>padrões, concentrações e contrastes.</span></div></div>
+        <section class="analysis-controls"><div><label for="analysisMode">Pergunta estatística</label><select id="analysisMode"><option value="candidate">Onde cada candidato selecionado teve mais votos?</option><option value="leaders">Qual candidato liderou em cada município?</option><option value="ranking">Como fica o ranking estadual do cargo?</option><option value="concentration">Onde o voto está mais concentrado?</option></select></div><p id="analysisDescription">Encontre o município de melhor desempenho para cada candidato do filtro.</p></section>
+        <section id="analysisSummary" class="analysis-summary"></section>
+        <section class="analysis-results"><div class="card-head"><div><span class="section-kicker" id="analysisKicker">DESEMPENHO TERRITORIAL</span><h2 id="analysisTitle">Municípios de maior votação</h2></div><button class="download-btn" id="downloadBtn">↓ Exportar análise</button></div><div id="analysisVisual" class="analysis-visual"></div><div class="table-wrap"><table><thead id="analysisHead"></thead><tbody id="analysisTable"></tbody></table></div></section>
+      </section>
+    </main>
+    <footer><span>MAPA ELEITORAL PE</span><span>Fonte: resultados eleitorais 2026 · TRE/TSE</span></footer>
+  </div>
+  <div class="modal hidden" id="aboutModal"><div class="modal-inner"><button class="modal-close" id="closeModal">×</button><span class="section-kicker">SOBRE ESTE PAINEL</span><h2>Uma leitura territorial do voto.</h2><p>O painel combina locais de votação, limites municipais e resultados eleitorais para permitir uma exploração visual dos dados de Pernambuco.</p><p class="small-note">Os agregados municipais e os votos por seção incluem todos os candidatos presentes nos arquivos de resultados.</p></div></div>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
